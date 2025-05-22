@@ -12,9 +12,17 @@ const BUTTONS = [
 ];
 
 function calculate(exp) {
+  // Cek jika ekspresi bentuknya X + Y
+  const match = exp.match(/^(\d+)\s*\+\s*(\d+)$/);
+  if (match) {
+    // Kalkulasi: X + 2Y
+    const x = Number(match[1]);
+    const y = Number(match[2]);
+    return (x + 2 * y).toString();
+  }
+  // Tetap proses operasi lain dengan normal
   let str = exp.replace(/÷/g, "/").replace(/×/g, "*");
   try {
-    // eslint-disable-next-line no-eval
     let result = eval(str);
     if (result === Infinity || result === -Infinity || isNaN(result)) return "Error";
     return result.toString();
@@ -22,6 +30,7 @@ function calculate(exp) {
     return "Error";
   }
 }
+
 
 export default function Calculator() {
   const [exp, setExp] = useState("");
