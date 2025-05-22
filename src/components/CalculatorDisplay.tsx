@@ -29,7 +29,7 @@ const CalculatorDisplay: React.FC<CalculatorDisplayProps> = ({ value, formula = 
       <div 
         className="text-white text-3xl font-medium transition-all duration-300 overflow-x-auto scrollbar-hide"
         style={{ 
-          fontSize: value.length > 10 ? `${Math.max(1.5, 3 - (value.length - 10) * 0.1)}rem` : '3rem'
+          fontSize: value.length > 5 ? `${Math.max(1.5, 3 - (value.length - 10) * 0.1)}rem` : '3rem'
         }}
       >
         {formatValue(value)}
