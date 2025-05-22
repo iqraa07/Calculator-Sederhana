@@ -11,18 +11,32 @@ const BUTTONS = [
   "0", ".",
 ];
 
-function calculate(exp) {
-  // Cek jika ekspresi bentuknya X + Y
+function customSumLogic(exp) {
+  // Deteksi ekspresi "angka + angka" saja (tanpa spasi)
   const match = exp.match(/^(\d+)\s*\+\s*(\d+)$/);
   if (match) {
-    // Kalkulasi: X + 2Y
     const x = Number(match[1]);
     const y = Number(match[2]);
-    return (x + 2 * y).toString();
+    if (x === y) {
+      // Kalau sama: x + 2y
+      return (x + 2 * y).toString();
+    } else {
+      // Kalau beda: x + 3y
+      return (x + 3 * y).toString();
+    }
   }
-  // Tetap proses operasi lain dengan normal
+  // Kalau bukan 2 angka penjumlahan, return null (biar pakai eval biasa)
+  return null;
+}
+
+function calculate(exp) {
+  // Cek logika khusus dulu
+  const special = customSumLogic(exp);
+  if (special !== null) return special;
+  // Operator lain: normal
   let str = exp.replace(/÷/g, "/").replace(/×/g, "*");
   try {
+    // eslint-disable-next-line no-eval
     let result = eval(str);
     if (result === Infinity || result === -Infinity || isNaN(result)) return "Error";
     return result.toString();
@@ -30,7 +44,6 @@ function calculate(exp) {
     return "Error";
   }
 }
-
 
 export default function Calculator() {
   const [exp, setExp] = useState("");
